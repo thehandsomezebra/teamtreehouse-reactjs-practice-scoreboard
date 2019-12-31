@@ -7,22 +7,22 @@ class App extends Component {
   state = {
     players: [
       {
-        name: "Guil",
+        name: "Jeff",
         score: 0,
         id: 1
       },
       {
-        name: "Treasure",
+        name: "Ms. Keisha",
         score: 0,
         id: 2
       },
       {
-        name: "Ashley",
+        name: "Shalissa",
         score: 0,
         id: 3
       },
       {
-        name: "James",
+        name: "Tre",
         score: 0,
         id: 4
       }
@@ -61,10 +61,25 @@ class App extends Component {
     });
   };
 
+  getHighScore = () => {
+    //grab all the players scores
+    const scores = this.state.players.map(p => p.score);
+    //get the highest score
+    const highScore = Math.max(...scores);
+    //now check if there's a high score at all and return that
+    if (highScore) {
+      return highScore;
+    }
+    return null;
+  };
+
   render() {
+    //call the function which gives it a boolean value..
+    const highScore = this.getHighScore();
+
     return (
       <div className="scoreboard">
-        <Header title="Scoreboard" players={this.state.players} />
+        <Header players={this.state.players} />
 
         {/* Players list */}
         {this.state.players.map((player, index) => (
@@ -76,6 +91,8 @@ class App extends Component {
             index={index}
             changeScore={this.handleScoreChange}
             removePlayer={this.handleRemovePlayer}
+            //passing the t/f highscore to the players...
+            isHighScore={highScore === player.score}
           />
         ))}
         <AddPlayerForm addPlayer={this.handleAddPlayer} />
